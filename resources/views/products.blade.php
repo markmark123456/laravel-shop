@@ -15,7 +15,7 @@
             <p>Цена: {{ number_format($product->price, 0, ',', ' ') }} ₽</p>
             <p>В наличии: {{ $product->in_stock ? 'Да' : 'Нет' }}</p>
             <p>
-                <a href="{{ route('product', ['code' => $product->code]) }}">Подробнее...</a>
+                <a href="{{ route('index', ['code' => $product->code]) }}">Подробнее...</a>
             </p>
         </div>
         <hr>

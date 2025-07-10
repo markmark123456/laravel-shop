@@ -1,31 +1,45 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
-use App\Http\Controllers\OrderController;
-use Illuminate\Support\Facades\Route;
 
+// ⬇️ Добавь это — импорт админского контроллера с псевдонимом
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+
+// Главная страница
 Route::get('/', [MainController::class, 'index'])->name('index');
 
-Route::get('/products', [ProductController::class, 'showProducts'])->name('products');
-Route::get('/product/{code}', [ProductController::class, 'showProduct'])->name('product');
+// Публичные маршруты товаров
+Route::get('/products', [ProductController::class, 'index'])->name('products');
+Route::get('/products/{code}', [ProductController::class, 'show'])->name('products.show');
 
-Route::get('/categories', [MainController::class, 'categories'])->name('categories');
-Route::get('/category/{code}', [MainController::class, 'category'])->name('category');
+// Админские маршруты для управления товарами
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/products/create', [AdminProductController::class, 'create'])->name('products.create');
+    Route::post('/products', [AdminProductController::class, 'store'])->name('products.store');
+    // сюда же можно будет добавить edit, update, destroy
+});
 
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
-Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+// Защищённые маршруты для корзины и заказов
+Route::middleware(['auth'])->group(function () {
+    // Корзина
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+    Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 
-Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-Route::get('/order', [OrderController::class, 'create'])->name('order.create');
-Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+    // Заказы
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/order', [OrderController::class, 'create'])->name('order.create');
+    Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+});
 
-
+// Аутентификация
 Route::get('/auth/register', [RegisterController::class, 'showRegistrationForm'])->name('register.show');
 Route::post('/auth/register', [RegisterController::class, 'register'])->name('register');
 
