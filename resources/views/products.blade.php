@@ -22,4 +22,7 @@
     @empty
         <p>Товары не найдены.</p>
     @endforelse
+
+    {{-- Пагинация --}}
+    {{ $products->links() }}
 @endsection

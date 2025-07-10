@@ -14,7 +14,7 @@
     @forelse($cart as $id => $item)
         <li>
             <img src="{{ $item['image'] }}" alt="" width="50">
-            {{ $item['name'] }} — {{ $item['price'] }} × {{ $item['quantity'] }}
+            {{ $item['name'] }} — {{ $item['price'] }} * {{ $item['quantity'] }}
             
             <form action="{{ route('cart.remove', $id) }}" method="POST" style="display:inline;">
                 @csrf

@@ -8,7 +8,7 @@ class ProductController extends Controller
 {
     public function showProducts()
     {
-        $products = Product::with('category')->get();
+        $products = Product::with('category')->paginate(10);
         return view('products', compact('products'));
     }
 
