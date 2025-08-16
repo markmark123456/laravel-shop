@@ -3,6 +3,7 @@
 @section('title', 'Товары')
 
 @section('content')
+    <a href="{{ route('admin.products.create') }}">Создать товар...</a>
     <h1>Список товаров</h1>
 
     @forelse($products as $product)
@@ -17,6 +18,7 @@
             <p>
                 <a href="{{ route('products.show', ['code' => $product->code]) }}">Подробнее...</a>
             </p>
+            
         </div>
         <hr>
     @empty
@@ -26,3 +28,4 @@
     {{-- Пагинация --}}
     {{ $products->links() }}
 @endsection
+

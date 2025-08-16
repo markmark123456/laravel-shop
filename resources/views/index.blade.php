@@ -12,12 +12,11 @@
         <button type="submit">Выйти</button>
     </form>
 
-    <nav>
-        <ul>
-            <li><a href="{{ route('cart.index') }}">Корзина</a></li>
-            <li><a href="{{ route('orders.index') }}">Мои заказы</a></li>
-        </ul>
-    </nav>
+
+<a href="{{ route('cart.index') }}">Корзина</a>
+<a href="{{ route('orders.index') }}">Мои заказы</a>
+
+
 @endauth
 
 @guest

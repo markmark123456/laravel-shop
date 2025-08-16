@@ -9,18 +9,19 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 
-// ⬇️ Добавь это — импорт админского контроллера с псевдонимом
+//  Добавь это — импорт админского контроллера с псевдонимом
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 
 // Главная страница
 Route::get('/', [MainController::class, 'index'])->name('index');
 
-// Публичные маршруты товаров
-Route::get('/products', [ProductController::class, 'index'])->name('products');
-Route::get('/products/{code}', [ProductController::class, 'show'])->name('products.show');
+// Публичные маршруты товаровa
+Route::get('/products', [ProductController::class, 'showProducts'])->name('products');
+Route::get('/products/{code}', [ProductController::class, 'showProduct'])->name('products.show');
 
 // Админские маршруты для управления товарами
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/products', [AdminProductController::class, 'index'])->name('products.index');
     Route::get('/products/create', [AdminProductController::class, 'create'])->name('products.create');
     Route::post('/products', [AdminProductController::class, 'store'])->name('products.store');
     // сюда же можно будет добавить edit, update, destroy

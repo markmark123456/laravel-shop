@@ -12,11 +12,11 @@
 
     @if ($errors->any())
         <div style="color: red">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+            @foreach ($errors->all() as $error)
+                {{ $error }}
+            @endforeach
         </div>
     @endif
 @endsection
+
+<a href="{{ route('login') }}">Войти</a>

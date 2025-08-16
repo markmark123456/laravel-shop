@@ -1,4 +1,4 @@
-@vite('resources/css/app.css')
+
 
 <!DOCTYPE html>
 <html>

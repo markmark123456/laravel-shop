@@ -12,6 +12,12 @@ use App\Http\Requests\StoreProductRequest;
 
 class ProductController extends Controller
 {
+    public function index()
+    {
+        $products = Product::with('category')->paginate(10);
+        return view('admin.products', compact('products'));
+    }
+
     public function create()
     {
         $categories = Category::all();

@@ -20,6 +20,9 @@
         <label>Описание:</label>
         <textarea name="description">{{ old('description') }}</textarea><br><br>
 
+        <label>Категория:</label>
+        <input type="number" name="category_id" value="{{ old('category_id') }}" required><br><br>
+
         <label>В наличии:</label>
         <select name="in_stock">
             <option value="1">Да</option>
