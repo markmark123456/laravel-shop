@@ -2,46 +2,64 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function index()
+    public function cart()
     {
-        $cart = session()->get('cart', []);
-        return view('cart', compact('cart'));
+        $orderId = session('orderId');
+        if (!is_null($orderId)) {
+            $order = Order::findOrFail($orderId);
+        }
+        return view('cart', compact('order'));
     }
 
-    public function add($id)
+    public function cartPlace()
     {
-        $product = Product::findOrFail($id);
+        return view('order');
+    }
 
-        $cart = session()->get('cart', []);
-
-        if (isset($cart[$id])) {
-            $cart[$id]['quantity']++;
+    public function cartAdd($productId)
+    {
+        $orderId = session('orderId');
+        if (is_null($orderId)) {
+            $order = Order::create();
+            session(['orderId' => $order->id]);
         } else {
-            $cart[$id] = [
-                'name' => $product->name,
-                'price' => $product->price,
-                'image' => $product->image,
-                'quantity' => 1,
-            ];
+            $order = Order::findOrFail($orderId);
         }
 
-        session()->put('cart', $cart);
+        if ($order->products->contains($productId)) {
+            $pivotRow = $order->products()->where('product_id', $productId)->first()->pivot;
+            $pivotRow->quantity++;
+            $pivotRow->update();
+        } else {
+            $order->products()->attach($productId);
+        }
 
-        return redirect()->route('cart.index')->with('success', 'Товар добавлен в корзину!');
+        return redirect()->route('cart.index');
     }
 
-    public function remove($id)
+    public function cartRemove($productId) 
     {
-        $cart = session()->get('cart', []);
-        unset($cart[$id]);
-        session()->put('cart', $cart);
+        $orderId = session('orderId');
+        if (is_null($orderId)) {
+            return redirect()->route('cart.index');
+        }
+        $order = Order::find($orderId);
 
-        return redirect()->route('cart.index')->with('success', 'Товар удален из корзины!');
+        if ($order->products->contains($productId)) {
+            $pivotRow = $order->products()->where('product_id', $productId)->first()->pivot;
+            if ($pivotRow->quantity <= 1) {
+                $order->products()->detach($productId);
+            } else {
+                $pivotRow->quantity--;
+                $pivotRow->update();
+            }
+        }
+
+        return redirect()->route('cart.index');
     }
 }
-

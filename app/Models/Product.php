@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory;
+    
 
     // Указываем, какие поля можно массово заполнять
     protected $fillable = [
@@ -24,4 +23,14 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function getPriceForQuantity()
+    {
+        if (!is_null($this->pivot)) {
+            return $this->pivot->quantity * $this->price;
+        }
+
+        return  $this->price;
+    }
 }
+

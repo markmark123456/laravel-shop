@@ -33,7 +33,7 @@
         </p>
 
         @if($product->in_stock)
-            <form action="{{ route('cart.add', $product->id) }}" method="POST">
+            <form action="{{ route('cart-add', $product->id) }}" method="POST">
                 @csrf
                 <button type="submit">Добавить в корзину</button>
             </form>

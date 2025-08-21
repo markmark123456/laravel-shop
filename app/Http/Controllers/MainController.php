@@ -18,7 +18,7 @@ class MainController extends Controller
 
     public function category($code)
     {
-        $category = Category::where('code', $code)->firstOrFail();
+        $category = Category::where('id', $code)->firstOrFail();
         return view('category', compact('category'));
     }
 }

@@ -15,6 +15,10 @@ use App\Http\Controllers\Admin\ProductController as AdminProductController;
 // Главная страница
 Route::get('/', [MainController::class, 'index'])->name('index');
 
+Route::get('/categories', [MainController::class, 'categories'])->name('categories');
+Route::get('/categories{id}', [MainController::class, 'category'])->name('category');
+
+
 // Публичные маршруты товаровa
 Route::get('/products', [ProductController::class, 'showProducts'])->name('products');
 Route::get('/products/{code}', [ProductController::class, 'showProduct'])->name('products.show');
@@ -30,14 +34,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 // Защищённые маршруты для корзины и заказов
 Route::middleware(['auth'])->group(function () {
     // Корзина
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
-    Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');
+    Route::post('/cart/add/{product}', [CartController::class, 'cartAdd'])->name('cart.add');
+    Route::delete('/cart/remove/{id}', [CartController::class, 'cartRemove'])->name('cart.remove');
 
     // Заказы
-    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('/order', [OrderController::class, 'create'])->name('order.create');
-    Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+    // Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    // Route::get('/order', [OrderController::class, 'create'])->name('order.create');
+    // Route::post('/order', [OrderController::class, 'store'])->name('order.store');
 });
 
 // Аутентификация

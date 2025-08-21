@@ -7,7 +7,7 @@
 @foreach($categories as $category)
     <div>
         <h2>{{ $category->name }}</h2>
-        <p><a href="{{ route('category', ['code' => $category->code]) }}">Подробнее...</a></p>
+        <p><a href="{{ route('category', ['id' => $category->id]) }}">Подробнее...</a></p>
     </div>
     <hr>
 @endforeach

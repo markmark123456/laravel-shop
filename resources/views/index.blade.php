@@ -14,7 +14,7 @@
 
 
 <a href="{{ route('cart.index') }}">Корзина</a>
-<a href="{{ route('orders.index') }}">Мои заказы</a>
+{{-- <a href="{{ route('orders.index') }}">Мои заказы</a> --}}
 
 
 @endauth
