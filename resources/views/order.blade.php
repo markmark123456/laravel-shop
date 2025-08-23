@@ -16,24 +16,24 @@
     </div>
 @endif
 
-<form action="{{ route('order.store') }}" method="POST">
-    @csrf
+<form action="{{ route('cart.confirm') }}" method="POST">
+    <p>Общая стоимость заказа: <b>{{ $order->getFullPrice() }} руб.</b></p>
     <label>Имя:<br>
-        <input type="text" name="customer_name" value="{{ old('customer_name') }}" required>
+        <input type="text" name="name" value="{{ old('name') }}" required>
     </label><br><br>
 
     <label>Email:<br>
-        <input type="email" name="customer_email" value="{{ old('customer_email') }}" required>
+        <input type="email" name="email" value="{{ old('email') }}" required>
     </label><br><br>
 
     <label>Телефон:<br>
-        <input type="text" name="customer_phone" value="{{ old('customer_phone') }}">
+        <input type="text" name="phone" value="{{ old('phone') }}">
     </label><br><br>
 
     <label>Адрес:<br>
         <textarea name="address">{{ old('address') }}</textarea>
     </label><br><br>
-
+    @csrf
     <button type="submit">Оформить заказ</button>
 </form>
 

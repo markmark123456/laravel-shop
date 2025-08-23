@@ -20,6 +20,7 @@ Route::get('/categories{id}', [MainController::class, 'category'])->name('catego
 
 
 // Публичные маршруты товаровa
+// Route::get('/product/{id}', [ProductController::class, 'show'])->name('product');
 Route::get('/products', [ProductController::class, 'showProducts'])->name('products');
 Route::get('/products/{code}', [ProductController::class, 'showProduct'])->name('products.show');
 
@@ -35,8 +36,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 Route::middleware(['auth'])->group(function () {
     // Корзина
     Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');
+    Route::get('/cart/place', [CartController::class, 'cartPlace'])->name('cart.place');
     Route::post('/cart/add/{product}', [CartController::class, 'cartAdd'])->name('cart.add');
     Route::delete('/cart/remove/{id}', [CartController::class, 'cartRemove'])->name('cart.remove');
+    Route::post('/cart/place', [CartController::class, 'cartConfirm'])->name('cart.confirm');
 
     // Заказы
     // Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');

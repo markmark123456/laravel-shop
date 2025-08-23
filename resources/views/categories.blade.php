@@ -5,8 +5,13 @@
 @section('content')
 
 @foreach($categories as $category)
-    <div>
-        <h2>{{ $category->name }}</h2>
+    <div class="panel">
+        <a href="{{ route('category'), $categoty->code }}">
+            <h2>{{ $category->name }}</h2>
+        </a>
+        <p>
+            {{ $category->desctiption }}
+        </p>
         <p><a href="{{ route('category', ['id' => $category->id]) }}">Подробнее...</a></p>
     </div>
     <hr>

@@ -3,7 +3,7 @@
 @section('title', $category->name)
 
 @section('content')
-    <h1>{{ $category->name }}</h1>
+    <h1>{{ $category->name }} {{ $categoty->products->count() }} </h1>
     <p>{{ $category->description }}</p>
 
     @if($category->products && count($category->products))

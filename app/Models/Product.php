@@ -6,9 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    
-
-    // Указываем, какие поля можно массово заполнять
     protected $fillable = [
         'name',
         'code',
