@@ -14,9 +14,12 @@
 
 
 <a href="{{ route('cart.index') }}">Корзина</a>
-{{-- <a href="{{ route('orders.index') }}">Мои заказы</a> --}}
 
-
+@if(Auth::user()->is_admin)
+        <a href="{{ route('orders.index') }}">Все заказы (админ)</a>
+    {{-- @else
+        <a href="{{ route('orders.index') }}">Мои заказы</a> --}}
+@endif
 @endauth
 
 @guest

@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,5 +15,3 @@
     @yield('content')
 </body> 
 </html>
-
-{{-- @include('partials.header') <!-- подключаем хедер --> --}}
