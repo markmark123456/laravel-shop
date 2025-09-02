@@ -27,13 +27,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');
-    Route::get('/cart/place', [CartController::class, 'cartPlace'])->name('cart.place');
-    Route::post('/cart/add/{product}', [CartController::class, 'cartAdd'])->name('cart.add');
-    Route::delete('/cart/remove/{id}', [CartController::class, 'cartRemove'])->name('cart.remove');
-    Route::post('/cart/place', [CartController::class, 'cartConfirm'])->name('cart.confirm');
+Route::prefix('cart')->middleware(['auth'])->group(function () {
+    Route::post('/add/{product}', [CartController::class, 'cartAdd'])->name('cart.add');
+    
+    Route::middleware(['cart_not_empty'])->group(function () {
+        Route::delete('/remove/{id}', [CartController::class, 'cartRemove'])->name('cart.remove');
+        Route::get('/', [CartController::class, 'cart'])->name('cart.index');
+        Route::get('/place', [CartController::class, 'cartPlace'])->name('cart.place');
+        Route::post('/place', [CartController::class, 'cartConfirm'])->name('cart.confirm');
+    });
 });
+
 
 Route::get('/auth/register', [RegisterController::class, 'showRegistrationForm'])->name('register.show');
 Route::post('/auth/register', [RegisterController::class, 'register'])->name('register');

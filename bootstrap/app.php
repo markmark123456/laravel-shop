@@ -6,6 +6,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 // use App\Http\Middleware\Authenticate;
 use Illuminate\Auth\Middleware\Authenticate;
 use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\CartNotEmpty;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -17,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'auth' => Authenticate::class,
             'admin' => IsAdmin::class,
+            'cart_not_empty' => CartNotEmpty::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

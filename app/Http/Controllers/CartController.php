@@ -5,15 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
     public function cart()
     {
+        $order = null;
+
         $orderId = session('orderId');
-        if (!is_null($orderId)) {
+
+        if (is_null($orderId)) {
+            $order = new Order();
+        } else {
             $order = Order::findOrFail($orderId);
         }
+
         return view('cart', compact('order'));
     }
 
@@ -63,6 +70,11 @@ class CartController extends Controller
             $order->products()->attach($productId);
         }
 
+        if (Auth::check()) {
+            $order->user_id = Auth::id();
+            $order->save();
+        }
+
         $product = Product::find($productId);
 
         session()->flash('success', 'Добавлен товар ' . $product->name);
@@ -80,7 +92,7 @@ class CartController extends Controller
 
         if ($order->products->contains($productId)) {
             $pivotRow = $order->products()->where('product_id', $productId)->first()->pivot;
-            if ($pivotRow->quantity <= 1) {
+            if ($pivotRow->quantity < 2) {
                 $order->products()->detach($productId);
             } else {
                 $pivotRow->quantity--;
